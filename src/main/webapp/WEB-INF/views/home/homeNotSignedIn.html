@@ -50,7 +50,7 @@
 
                     <div class="ct-chart ct-perfect-fourth"></div>
 
-                    <script>
+                    <script th:inline="javascript">
 //                        var options = {
 //                            // Don't draw the line chart points
 //                            showPoint: true,
@@ -59,14 +59,13 @@
 //                                divisor: 2
 //                            })
 //                        }
-
+                        var list = [[${listOfIntegers}]];
                         var data = {
                             // A labels array that can contain any sort of values
-                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                             // Our series array that contains series objects or in this case series data arrays
-                            series: [
-                                [5, 2, 4, 2, 0]
-                            ]
+                            series: [list]
+
                         };
 
                         // Create a new line chart object where as first parameter we pass in a selector
