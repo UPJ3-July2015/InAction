@@ -15,6 +15,7 @@ gulp.task("default", ["sass"]);
 gulp.task("sass", function () {
     log("Generating CSS files " + (new Date()).toString());
     gulp.src(sassFiles)
+
         .pipe(sass({style: 'expanded'}))
         .pipe(autoprefixer("last 3 version", "safari 5", "ie 9"))
         .pipe(gulp.dest(cssTarget))
