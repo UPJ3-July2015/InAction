@@ -2,6 +2,11 @@ package net.lermex.inaction.config;
 
 import static org.springframework.context.annotation.ComponentScan.Filter;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.springframework.context.annotation.Bean;
+
 import net.lermex.inaction.Application;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,5 +22,11 @@ class ApplicationConfig {
 //		ppc.setLocation(new ClassPathResource("/persistence.properties"));
 //		return ppc;
 //	}
+	
+	@Bean
+	public EntityManagerFactory getCurrentEMF() {
+		return Persistence.createEntityManagerFactory("app");
+	}
+	
 	
 }

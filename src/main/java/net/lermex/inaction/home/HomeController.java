@@ -1,9 +1,15 @@
 package net.lermex.inaction.home;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import net.lermex.inaction.dao.UserDao;
+import net.lermex.inaction.entity.User;
+
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import java.util.ArrayList;
@@ -12,6 +18,9 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	UserDao userDao;
 
 	@RequestMapping(value = "/")
 	public ModelAndView index() {
@@ -20,6 +29,12 @@ public class HomeController {
 		List<Integer> activityMinutes = Arrays.asList(0,2,5,3,4,5,6);
         mav.addObject("customers", "test");
         mav.addObject("activityMinutes", activityMinutes);
+        
+        //try it
+        User u = new User();
+        u.setName("Pedro" + (Calendar.getInstance()).get(Calendar.MILLISECOND));
+        u.setPasswordhash("H");
+        userDao.createUser(u);
 
 		return mav;
 	}
