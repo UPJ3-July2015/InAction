@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.lermex.inaction.dao.SportActivityDao;
 import net.lermex.inaction.dao.UserDao;
+import net.lermex.inaction.entity.SportActivity;
 import net.lermex.inaction.entity.User;
 
 import java.util.Arrays;
@@ -21,6 +23,9 @@ public class HomeController {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	SportActivityDao sportActivityDao;
 
 	@RequestMapping(value = "/")
 	public ModelAndView index() {
@@ -30,12 +35,20 @@ public class HomeController {
         mav.addObject("customers", "test");
         mav.addObject("activityMinutes", activityMinutes);
         
-        //try it
+        
+        try {
         User u = new User();
         u.setName("Pedro" + (Calendar.getInstance()).get(Calendar.MILLISECOND));
-        u.setPasswordhash("H");
+        u.setPassword("YESYOUARE");
         userDao.createUser(u);
-
+        } catch (Exception ex) {
+        	//???Parvali me4tu
+        }
+        
+        
+        SportActivity a = new SportActivity();
+        a.setName("MixFight" + (Calendar.getInstance()).get(Calendar.MILLISECOND));        
+        sportActivityDao.createActivity(a);
 		return mav;
 	}
 

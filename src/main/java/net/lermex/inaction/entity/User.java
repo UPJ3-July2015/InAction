@@ -1,15 +1,27 @@
 package net.lermex.inaction.entity;
 
+import java.security.GeneralSecurityException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import net.lermex.inaction.util.CSHA1Util;
+
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
 
 @Entity
 @Table(name="scusers")
+@NamedQueries({	  
+	  @NamedQuery(name="User.getUserByName", query="SELECT u FROM User u where u.name = :usern"),
+	  @NamedQuery(name="User.getAllUsersOrderByName", query="SELECT u FROM User u ORDER BY u.name")
+	})
 public class User {
 	
 	@Id
@@ -22,6 +34,11 @@ public class User {
 	
 	@Column(name="passwordhash", length=64)
 	String passwordhash;
+	
+	
+	@Transient 
+	private String password;
+	
 
 	public Long getId() {
 		return Id;
@@ -45,6 +62,15 @@ public class User {
 
 	public void setPasswordhash(String passwordhash) {
 		this.passwordhash = passwordhash;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) throws GeneralSecurityException {
+		this.password = password;
+		this.passwordhash = CSHA1Util.getSHA1String(password);
 	}
 		
 
