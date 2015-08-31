@@ -7,12 +7,15 @@ var gulp = require("gulp"),//http://gulpjs.com/
     log = util.log;
 
 var cssTarget = "src/main/webapp/resources/css/";
+var sassFiles = "src/main/resources/scss/all.scss";
+var sassDirectory = "src/main/resources/scss/";
 
 gulp.task("default", ["sass"]);
 
 gulp.task("sass", function () {
     log("Generating CSS files " + (new Date()).toString());
-    gulp.src("src/main/resources/scss/all.scss")
+    gulp.src(sassFiles)
+
         .pipe(sass({style: 'expanded'}))
         .pipe(autoprefixer("last 3 version", "safari 5", "ie 9"))
         .pipe(gulp.dest(cssTarget))
@@ -23,5 +26,5 @@ gulp.task("sass", function () {
 
 gulp.task("watch", function () {
     log("Watching scss files for modifications");
-    gulp.watch(sassFiles, ["sass"]);
+    gulp.watch(sassDirectory + "**/*.scss", ["sass"]);
 });
