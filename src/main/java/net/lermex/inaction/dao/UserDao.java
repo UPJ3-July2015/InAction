@@ -19,7 +19,7 @@ public class UserDao {
 	}
 	
 	private int getUserCount(EntityManager entityManager, User u) {
-		return getUserCount(entityManager, u);
+		return getUserCount(entityManager, u.getName());
 	}
 	
 	/*
