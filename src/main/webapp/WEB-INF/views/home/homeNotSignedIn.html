@@ -133,6 +133,14 @@
                 </div>
             </div>
             <div class="panel">
+                <div class="news-item" th:each="item : ${listUserActivityShow}">
+                    <div>
+                        <span class="news-item__name" th:text="${item.userName}">Jane Hithard</span>
+                        <span class="news-item__date" th:text="${item.dt}">21 Aug at 3:27 pm</span>
+                    </div>
+                    <span th:text="${item.sportActivityName}">Anyone up for a hike this weekend?</span>
+                </div>
+                <!-- 
                 <div class="news-item">
                     <div>
                         <span class="news-item__name">Jane Hithard</span>
@@ -147,6 +155,7 @@
                     </div>
                     <span>Just finished my first 5k. Best feeling ever!</span>
                 </div>
+                 -->
             </div>
         </div>
     </div>

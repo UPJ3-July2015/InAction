@@ -12,8 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "scsport_activities")
 @NamedQueries({
-		@NamedQuery(name = "User.getActivityByName", query = "SELECT a FROM SportActivity a where a.name = :usern"),
-		@NamedQuery(name = "User.getAllActivitiesOrderByName", query = "SELECT a FROM SportActivity a ORDER BY a.name") })
+		@NamedQuery(name = "SportAct.getActivityByName", query = "SELECT a FROM SportActivity a where a.name = :usern"),
+		@NamedQuery(name = "SportAct.getAllActivitiesOrderByName", query = "SELECT a FROM SportActivity a ORDER BY a.name") })
 public class SportActivity {
 
 	@Id

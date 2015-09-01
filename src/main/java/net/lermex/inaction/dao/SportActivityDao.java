@@ -24,5 +24,24 @@ public class SportActivityDao {
 			entityManager.close();
 		}
 	}
+	
+	public SportActivity getActivityByName(EntityManager entityManager, String aName) {
+		return (entityManager.createNamedQuery("SportAct.getActivityByName", SportActivity.class).setParameter("usern", aName))
+				.getSingleResult();
+	}
+	
+	public SportActivity getActivityByName(String aName) {
+		EntityManager entityManager = emf.createEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+	        try {
+	        	return getActivityByName(entityManager, aName);
+	        } finally {
+			  entityManager.getTransaction().commit();
+	        }
+		} finally {
+			entityManager.close();
+		}
+	}
 
 }
