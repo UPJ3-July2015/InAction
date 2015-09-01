@@ -44,6 +44,7 @@ public class HomeController {
          System.out.println(createW);
         } catch (Exception ex) {
         	//???Что делать с этим исключением?
+        	System.out.println(ex);
         }
         
         /* 4 test

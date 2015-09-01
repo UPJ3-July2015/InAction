@@ -21,7 +21,7 @@ import javax.persistence.SequenceGenerator;
 @NamedQueries({	  
 	  @NamedQuery(name="User.getUserByName", query="SELECT u FROM User u where u.name = :usern"),
 	  @NamedQuery(name="User.getAllUsersOrderByName", query="SELECT u FROM User u ORDER BY u.name"),
-	  @NamedQuery(name="User.getCountByUserName", query = "SELECT COUNT(u) FROM User u")
+	  @NamedQuery(name="User.getCountByUserName", query = "SELECT COUNT(u) FROM User u where u.name = :usern")
 	})
 public class User {
 	

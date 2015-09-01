@@ -15,7 +15,7 @@ public class UserDao {
 	private EntityManagerFactory emf;
 	
 	private int getUserCount(EntityManager entityManager, String aUserName) {
-		return (entityManager.createNamedQuery("User.getCountByUserName", Integer.class).setParameter("name", aUserName)).getSingleResult();
+		return (entityManager.createNamedQuery("User.getCountByUserName", Long.class).setParameter("usern", aUserName)).getSingleResult().intValue();
 	}
 	
 	private int getUserCount(EntityManager entityManager, User u) {
@@ -23,7 +23,8 @@ public class UserDao {
 	}
 	
 	/*
-	 * 
+	 * см. createUserW
+	 * этот метод создает пользователя без проверки
 	 */
 	public void createUser(User u) {
 		if (u == null) return;
