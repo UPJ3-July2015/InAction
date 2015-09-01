@@ -19,10 +19,10 @@ public class SportActivity {
 	@Id
 	@GeneratedValue(generator = "sports_seq")
 	@SequenceGenerator(name = "sports_seq", sequenceName = "SC_SEQ", allocationSize = 1)
-	Long Id;
+	private Long Id;
 
 	@Column(name = "name", length = 40)
-	String name;
+	private String name;
 
 	public Long getId() {
 		return Id;

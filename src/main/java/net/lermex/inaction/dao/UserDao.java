@@ -35,7 +35,7 @@ public class UserDao {
 			entityManager.persist(u);
 			entityManager.getTransaction().commit();
 		} finally {
-			emf.close();
+			entityManager.close();
 		}
 	}
 

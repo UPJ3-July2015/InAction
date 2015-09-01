@@ -25,13 +25,13 @@ public class User {
 	@Id
 	@GeneratedValue(generator = "user_seq")
 	@SequenceGenerator(name = "user_seq", sequenceName = "SC_SEQ", allocationSize = 1)
-	Long Id;
+	private Long Id;
 
 	@Column(name = "name", length = 40)
-	String name;
+	private String name;
 
 	@Column(name = "passwordhash", length = 64)
-	String passwordhash;
+	private String passwordhash;
 
 	@Transient
 	private String password;
