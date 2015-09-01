@@ -15,31 +15,26 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
-@Table(name="scusers")
-@NamedQueries({	  
-	  @NamedQuery(name="User.getUserByName", query="SELECT u FROM User u where u.name = :usern"),
-	  @NamedQuery(name="User.getAllUsersOrderByName", query="SELECT u FROM User u ORDER BY u.name"),
-	  @NamedQuery(name="User.getCountByUserName", query = "SELECT COUNT(u) FROM User u where u.name = :usern")
-	})
+@Table(name = "scusers")
+@NamedQueries({ @NamedQuery(name = "User.getUserByName", query = "SELECT u FROM User u where u.name = :usern"),
+		@NamedQuery(name = "User.getAllUsersOrderByName", query = "SELECT u FROM User u ORDER BY u.name"),
+		@NamedQuery(name = "User.getCountByUserName", query = "SELECT COUNT(u) FROM User u where u.name = :usern") })
 public class User {
-	
+
 	@Id
-	@GeneratedValue(generator="user_seq")
-	@SequenceGenerator(name="user_seq",sequenceName="SC_SEQ", allocationSize=1)
+	@GeneratedValue(generator = "user_seq")
+	@SequenceGenerator(name = "user_seq", sequenceName = "SC_SEQ", allocationSize = 1)
 	Long Id;
-	
-	@Column(name="name", length=40)
+
+	@Column(name = "name", length = 40)
 	String name;
-	
-	@Column(name="passwordhash", length=64)
+
+	@Column(name = "passwordhash", length = 64)
 	String passwordhash;
-	
-	
-	@Transient 
+
+	@Transient
 	private String password;
-	
 
 	public Long getId() {
 		return Id;
@@ -64,7 +59,7 @@ public class User {
 	public void setPasswordhash(String passwordhash) {
 		this.passwordhash = passwordhash;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -73,6 +68,5 @@ public class User {
 		this.password = password;
 		this.passwordhash = CSHA1Util.getSHA1String(password);
 	}
-		
 
 }

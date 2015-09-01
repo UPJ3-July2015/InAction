@@ -10,19 +10,18 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="scsport_activities")
-@NamedQueries({	  
-	  @NamedQuery(name="User.getActivityByName", query="SELECT a FROM SportActivity a where a.name = :usern"),
-	  @NamedQuery(name="User.getAllActivitiesOrderByName", query="SELECT a FROM SportActivity a ORDER BY a.name")
-	})
+@Table(name = "scsport_activities")
+@NamedQueries({
+		@NamedQuery(name = "User.getActivityByName", query = "SELECT a FROM SportActivity a where a.name = :usern"),
+		@NamedQuery(name = "User.getAllActivitiesOrderByName", query = "SELECT a FROM SportActivity a ORDER BY a.name") })
 public class SportActivity {
-	
+
 	@Id
-	@GeneratedValue(generator="sports_seq")
-	@SequenceGenerator(name="sports_seq",sequenceName="SC_SEQ", allocationSize=1)
+	@GeneratedValue(generator = "sports_seq")
+	@SequenceGenerator(name = "sports_seq", sequenceName = "SC_SEQ", allocationSize = 1)
 	Long Id;
-	
-	@Column(name="name", length=40)
+
+	@Column(name = "name", length = 40)
 	String name;
 
 	public Long getId() {
@@ -40,6 +39,5 @@ public class SportActivity {
 	public void setName(String name) {
 		this.name = name;
 	}
-		
 
 }

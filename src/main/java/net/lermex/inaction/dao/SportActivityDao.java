@@ -1,6 +1,5 @@
 package net.lermex.inaction.dao;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -11,10 +10,10 @@ import net.lermex.inaction.entity.SportActivity;
 
 @Component
 public class SportActivityDao {
-	
+
 	@Autowired
 	private EntityManagerFactory emf;
-	
+
 	public void createActivity(SportActivity a) {
 		EntityManager entityManager = emf.createEntityManager();
 		try {
