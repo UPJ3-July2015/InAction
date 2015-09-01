@@ -37,18 +37,20 @@ public class HomeController {
         
         
         try {
-        User u = new User();
-        u.setName("Pedro" + (Calendar.getInstance()).get(Calendar.MILLISECOND));
-        u.setPassword("YESYOUARE");
-        userDao.createUser(u);
+         User u = new User();
+         u.setName("Pedro");
+         u.setPassword("YESYOUARE");
+         boolean createW = userDao.createUserW(u);
+         System.out.println(createW);
         } catch (Exception ex) {
-        	//???Parvali me4tu
+        	//???Что делать с этим исключением?
         }
         
-        
+        /* 4 test
         SportActivity a = new SportActivity();
         a.setName("MixFight" + (Calendar.getInstance()).get(Calendar.MILLISECOND));        
         sportActivityDao.createActivity(a);
+        */
 		return mav;
 	}
 

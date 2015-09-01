@@ -22,7 +22,7 @@ public class SportActivityDao {
 			entityManager.persist(a);
 			entityManager.getTransaction().commit();
 		} finally {
-			
+			emf.close();
 		}
 	}
 
