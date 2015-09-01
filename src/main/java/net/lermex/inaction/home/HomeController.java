@@ -50,7 +50,6 @@ public class HomeController {
 			us.setUserText("HI THERE "+(Calendar.getInstance()).get(Calendar.MILLISECOND));
 			userStatusDao.createUserStatus(us);
 		} catch (Exception ex) {
-			// ???Что делать с этим исключением?
 			//System.out.println(ex);
 			ex.printStackTrace();
 		}

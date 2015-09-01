@@ -28,8 +28,8 @@ public class UserStatus {
 	private User user;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DT")
-	private Date dt;
+	@Column(name="create_dt")
+	private Date createDt;
 	
 	@Column(name = "user_text", length = 4000)
 	private String userText;
@@ -39,8 +39,8 @@ public class UserStatus {
 	
 	@PrePersist
 	private void setDtBeforeInsert() {
-		if (dt == null) {
-			dt = new Date();
+		if (createDt == null) {
+			createDt = new Date();
 		}
 	}
 	
@@ -56,11 +56,11 @@ public class UserStatus {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Date getDt() {
-		return dt;
+	public Date getCreateDt() {
+		return createDt;
 	}
-	public void setDt(Date dt) {
-		this.dt = dt;
+	public void setCreateDt(Date dt) {
+		this.createDt = dt;
 	}
 	public String getUserText() {
 		return userText;

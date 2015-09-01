@@ -54,7 +54,7 @@ public class UserDao {
 				entityManager.getTransaction().commit();
 			}
 		} finally {
-			emf.close();
+			entityManager.close();
 		}
 	}
 
@@ -71,7 +71,7 @@ public class UserDao {
 				entityManager.getTransaction().commit();
 			}
 		} finally {
-			emf.close();
+			entityManager.close();
 		}
 	}
 
@@ -95,7 +95,7 @@ public class UserDao {
 				entityManager.getTransaction().commit();
 			}
 		} finally {
-			emf.close();
+			entityManager.close();
 		}
 	}
 
