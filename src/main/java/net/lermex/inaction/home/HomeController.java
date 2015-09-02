@@ -18,6 +18,7 @@ import net.lermex.inaction.entity.UserStatus;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class HomeController {
 		mav.addObject("customers", "test");
 		mav.addObject("activityMinutes", activityMinutes);
 
+		/*
 		try {
 			//create user
 			User u = new User();
@@ -74,12 +76,33 @@ public class HomeController {
 			//System.out.println(ex);
 			ex.printStackTrace();
 		}
+		*/
 		
 		//show it
 		List<UserActivityShow> listUserActivityShow = userActivityShowDao.getUserActivityShowList();
 		mav.addObject("listUserActivityShow", listUserActivityShow);		
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/time")
+	@ResponseBody
+	public String getdata() {
+		return new Date().toString();
+	}
+	
+	@RequestMapping(value = "/dosome")
+	@ResponseBody
+	public String getdata(@RequestParam("myparam")String param) {
+		return "hello "+param;
+	}
+	
+	@RequestMapping(value = "/dosomeyet")
+	@ResponseBody
+	public String getanotherdata(@RequestBody String param, @RequestHeader("Content-Type") String contnttype) {
+		System.out.println(contnttype);
+		System.out.println(param);
+		return "hello "+param;
 	}
 
 }
