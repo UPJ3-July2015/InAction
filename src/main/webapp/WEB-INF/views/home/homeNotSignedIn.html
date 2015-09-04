@@ -47,8 +47,8 @@
     <div class="row" style="margin: 8px;">
         <div class="col-4" style="text-align: center;">
             <div class="panel">
-                <h1 th:text="${showuser.name}">Peter Sportsy</h1>
-                <div rel="stylesheet" media="screen" class="strange" th:style="'background-image: url(' + ${avatarurl} + ');'"/>
+                <h1 th:text=" (${showuser} != null) ? ${showuser.name} : 'Are you Peter?'">Peter Sportsy</h1>
+                <div rel="stylesheet" media="screen" class="strange" th:style="'background-image: url(' + ( (${avatarurl} != null) ? ${avatarurl} : @{/resources/images/user3.png}  ) + ');'"/>
 
                 <p>
                     Welcome to the Spring MVC Quickstart application!
