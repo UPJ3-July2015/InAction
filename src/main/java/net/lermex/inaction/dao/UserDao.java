@@ -106,5 +106,27 @@ public class UserDao {
 			entityManager.close();
 		}
 	}
+	
+	public User getUserByName(EntityManager entityManager, String aUserName) {
+		return (entityManager.createNamedQuery("User.getUserByName", User.class).setParameter("usern", aUserName))
+				.getSingleResult();
+	}
+	
+	public User getUserByName(String aUserName) {
+		EntityManager entityManager = emf.createEntityManager();
+		try {
+			return getUserByName(entityManager, aUserName);
+		} finally {
+			entityManager.close();
+		}
+	}
+	//NoResultException
+	public User getUserByNameWithNoResultTreatment(String aUserName) {
+		try {
+			return getUserByName(aUserName);
+		} catch (Exception ex) {
+			return null;
+		}
+	}
 
 }
