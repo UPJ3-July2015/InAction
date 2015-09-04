@@ -30,13 +30,13 @@ public class SignInService {
 		if(checkPassWord(login, password)){
 			System.out.println("=======================================================================================");
 			System.out.println(login + password);
-			mav = new ModelAndView("home/homeNotSignedIn");
-		}else{
-			
+			//mav = new ModelAndView("home/homeNotSignedIn");
+			User u = userDao.getUserByNameWithNoResultTreatment(login);			
+			mav = new ModelAndView("redirect:/people/"+u.getId());
+		}else{			
 			mav = new ModelAndView("signin/signin");
 			mav.addObject("error", "incorrect pass or login");
-		}
-		
+		}		
 		return mav;
 		
 	}
