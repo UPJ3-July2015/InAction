@@ -24,7 +24,8 @@ public class UserDao {
 	}
 
 	/*
-	 * см. createUserW этот метод создает пользователя без проверки
+	 * look createUserIfNotExists.
+	 * This method creates User without checking
 	 */
 	public void createUser(User u) {
 		if (u == null)
@@ -40,35 +41,35 @@ public class UserDao {
 	}
 
 	/*
-	 * Проверка пользователя на существование
+	 * If User does not exists, this method will return false
 	 */
 	public boolean checkUser(User u) {
 		if (u == null)
 			return false;
 		EntityManager entityManager = emf.createEntityManager();
 		try {
-			entityManager.getTransaction().begin();
-			try {
-				return (getUserCount(entityManager, u) > 0);
-			} finally {
-				entityManager.getTransaction().commit();
-			}
+			entityManager.getTransaction().begin();			
+			int count = getUserCount(entityManager, u);			
+			entityManager.getTransaction().commit();
+			return (count > 0);
 		} finally {
 			entityManager.close();
 		}
 	}
 
 	/*
-	 * Проверка того, что есть пользователь с таким именем
+	 * If User does not exists, this method will return false
 	 */
 	public boolean checkUserName(String aUserName) {
+		int count = -1;
 		EntityManager entityManager = emf.createEntityManager();
 		try {
 			entityManager.getTransaction().begin();
 			try {
-				return (getUserCount(entityManager, aUserName) > 0);
+				return ((count = getUserCount(entityManager, aUserName)) > 0); 								
 			} finally {
-				entityManager.getTransaction().commit();
+				if (count > -1)
+				   entityManager.getTransaction().commit();
 			}
 		} finally {
 			entityManager.close();
@@ -76,24 +77,22 @@ public class UserDao {
 	}
 
 	/*
-	 * Если такого пользователя не существует, он будет создан и метод вернет -
-	 * true
+	 * If User does not exists, this method will create it and return true
 	 */
-	public boolean createUserW(User u) {
+	public boolean createUserIfNotExists(final User u) {
 		if (u == null)
 			return false;
-		EntityManager entityManager = emf.createEntityManager();
+		final EntityManager entityManager = emf.createEntityManager();
 		try {
 			entityManager.getTransaction().begin();
-			try {
-				int uCount = getUserCount(entityManager, u);
-				if (uCount > 0)
-					return false;
-				entityManager.persist(u);
-				return true;
-			} finally {
-				entityManager.getTransaction().commit();
-			}
+			boolean result = (getUserCount(entityManager, u) > 0) ? false : Boolean.valueOf(new Object() {
+				public String toString() {
+					entityManager.persist(u);					
+					return "true";
+				}
+			}.toString());					
+			entityManager.getTransaction().commit();			
+			return result;			
 		} finally {
 			entityManager.close();
 		}

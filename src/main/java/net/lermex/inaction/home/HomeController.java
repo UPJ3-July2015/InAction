@@ -75,7 +75,7 @@ public class HomeController {
 			User u = new User();
 			u.setName("Pedro" + (Calendar.getInstance()).get(Calendar.MILLISECOND));
 			u.setPassword("YESYOUARE");
-			boolean createW = userDao.createUserW(u);
+			boolean createW = userDao.createUserIfNotExists(u);
 			System.out.println(createW);
 			//post msg
 			UserStatus us = new UserStatus(u);
@@ -94,7 +94,7 @@ public class HomeController {
 			//System.out.println(ex);
 			ex.printStackTrace();
 		}
-		*/
+		*/		
 		
 		//show it
 		List<UserActivityShow> listUserActivityShow = userActivityShowDao.getUserActivityShowList();
