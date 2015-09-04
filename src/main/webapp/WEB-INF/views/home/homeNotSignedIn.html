@@ -29,6 +29,17 @@
       
    	}
     </script>
+<style>
+	div.strange {
+		width: 200px;
+		height: 200px;
+		margin: 0 auto;
+		border-radius: 50%;
+		border: 1px solid #DC3522;		
+		background-position: center;
+		background-size: cover;		
+	}
+</style>
 </head>
 <body>
 <div th:replace="fragments/header :: header">Header</div>
@@ -37,15 +48,7 @@
         <div class="col-4" style="text-align: center;">
             <div class="panel">
                 <h1>Peter Sportsy</h1>
-                <div rel="stylesheet"
-                     media="screen"
-                     style="width: 200px; height: 200px;
-                     margin: 0 auto;
-                     border-radius: 50%;
-                     border: 1px solid #DC3522;
-                     background-image: url('/resources/images/users/bike-person2.jpg');
-                     background-position: center;
-                     background-size: cover;" />
+                <div rel="stylesheet" media="screen" class="strange" th:style="'background-image: url(' + ${avatarurl} + ');'"/>
 
                 <p>
                     Welcome to the Spring MVC Quickstart application!
@@ -173,7 +176,7 @@
                 </div>
             </div>
             <div class="panel">
-            
+                
                 <input type="text" id="myparam" /><input type="button" value="click me"  onclick="getdatafromserver()" />      
                  
                 <div class="news-item" th:each="item : ${listUserActivityShow}">

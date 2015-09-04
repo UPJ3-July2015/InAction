@@ -2,8 +2,10 @@ package net.lermex.inaction.entity;
 
 import java.security.GeneralSecurityException;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -13,10 +15,15 @@ import net.lermex.inaction.util.CSHA1Util;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SecondaryTable;
+import javax.persistence.SecondaryTables;
 import javax.persistence.SequenceGenerator;
 
 @Entity
 @Table(name = "scusers")
+@SecondaryTables({
+	  @SecondaryTable(name="SCUSER_AVATAR")
+})
 @NamedQueries({ @NamedQuery(name = "User.getUserByName", query = "SELECT u FROM User u where u.name = :usern"),
 		@NamedQuery(name = "User.getAllUsersOrderByName", query = "SELECT u FROM User u ORDER BY u.name"),
 		@NamedQuery(name = "User.getCountByUserName", query = "SELECT COUNT(u) FROM User u where u.name = :usern") })
@@ -35,6 +42,10 @@ public class User {
 
 	@Transient
 	private String password;
+	
+	@Basic(fetch=FetchType.EAGER)
+	@Column(name = "photo", table="SCUSER_AVATAR")
+	private byte[] avatar;
 
 	public Long getId() {
 		return Id;
@@ -67,6 +78,14 @@ public class User {
 	public void setPassword(String password) throws GeneralSecurityException {
 		this.password = password;
 		this.passwordhash = CSHA1Util.getSHA1String(password);
+	}
+	
+	public byte[] getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(byte[] avatar) {
+		this.avatar = avatar;
 	}
 
 }
