@@ -95,7 +95,9 @@ public class HomeController {
 			ex.printStackTrace();
 		}
 		*/		
-		
+		User u = new User();		
+		u.setName("Peter Sportsy");		
+		mav.addObject("showuser", u);
 		//show it
 		List<UserActivityShow> listUserActivityShow = userActivityShowDao.getUserActivityShowList();
 		mav.addObject("listUserActivityShow", listUserActivityShow);		
@@ -133,7 +135,16 @@ public class HomeController {
 		mav.addObject("activityMinutes", activityMinutes);
         //build avatar url
 		mav.addObject("avatarurl", "/people/"+userId+"/avatar");		
-		//show it
+		//show user by his Id	
+		Long uId = Long.valueOf(userId);
+		User u = userDao.getUserById(uId);
+		if (u == null) { 
+			u = new User();
+			u.setId(uId); 
+			u.setName("Who is this man?");
+		}
+		mav.addObject("showuser", u);
+		//		
 		List<UserActivityShow> listUserActivityShow = userActivityShowDao.getUserActivityShowList();
 		mav.addObject("listUserActivityShow", listUserActivityShow);		
 		

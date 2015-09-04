@@ -97,5 +97,14 @@ public class UserDao {
 			entityManager.close();
 		}
 	}
+	
+	public User getUserById(Long Id) {
+		EntityManager entityManager = emf.createEntityManager();
+		try {
+			return entityManager.find(User.class, Id);
+		} finally {
+			entityManager.close();
+		}
+	}
 
 }
