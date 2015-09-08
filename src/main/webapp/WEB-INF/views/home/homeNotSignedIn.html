@@ -15,9 +15,9 @@
     	setInterval(refreshdatafromserver, 5000);
     }
     function refreshdatafromserver() {
-    	var param = $("#lastid").val();
+    	var param = $("#myLastId").val();
     	if (!param) {
-    		param = "-1"; //-1 - не катит, только строка только хардкор
+    		param = "-1";
     	}
     	console.log("send: " + param);
     	
@@ -28,9 +28,8 @@
     	    contentType: "text/plain; charset=UTF-8",
     	    data : param,
     	    success : function(result) {
-    	    	  console.log("getmessage");
+    	    	  console.log("getmessage");    	    	  
     	    	  console.log(result);
-    	    	  console.log(result.minId);
     	    	  console.log(result.maxId);
     	    	  console.log(result.list);    	    	  
     	    	  for(var i in result.list) {
@@ -42,10 +41,10 @@
     	    		  $("<span></span>").addClass("news-item__date").text(o.createDt).appendTo(divh);
     	    		  divh.appendTo(divn);
     	    		  $("<span></span>").text(o.userText).appendTo(divn);    	    		  
-    	    		  $("#mymessage").append(divn);
-    	    	  }    	    	      	    	     	    	  
-    	    	 // $("#lastid").val(data);
-    	    	 //$("#mymessage").html(result); //.innerHTML = result;
+    	    		  $("#mymessage").prepend(divn);
+    	    	  }  
+    	    	  $("#myLastId").val(result.maxId);
+    	    	  console.log($("#myLastId").val());
     	    },
     	});       
       
@@ -53,9 +52,9 @@
     </script>
     <script th:inline="javascript">
     function sendDataToServer() {
+    	console.log("sendmessage");
     	var param = $("#myparam").val();    	    
-    	console.log(param);
-    	
+    	console.log(param);    	
     	$.ajax({
     		url: "/addmessage",
     		type: "POST",
@@ -64,9 +63,7 @@
     	    data : param,
     	    success : function(result) {
     	    	  console.log(result);
-    	    	  //$("#mymessage").innerHTML = result;
-    	    	  $("#mymessage").html(result);
-    	    	  //$("#lastid").val(data);
+    	    	  $("#myparam").val("");
     	    },
     	});       
       
@@ -221,7 +218,7 @@
             <div class="panel">
                 <input type="hidden" id="myLastId" name="myLastId" />
                 <input type="text" id="myparam" /><input type="button" value="click me"  onclick="sendDataToServer()" />
-                <div id="mymessage">POSTMESSAGE</div>      
+                <div id="mymessage"></div>      
                 
                 <!-- 
                 <div class="news-item" th:each="item : ${listUserActivityShow}">
