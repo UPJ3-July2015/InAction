@@ -9,6 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.io.ByteStreams;
 
 import net.lermex.inaction.dao.SportActivityDao;
@@ -28,10 +32,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.ServletContext;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -185,8 +192,9 @@ public class HomeController {
 		return LastId.toString();
 	}
 	
-	@RequestMapping(value = "/getmessage")
-	@ResponseBody
+	/*
+	@RequestMapping(value = "/getmessage", produces = "application/json")
+	@ResponseBody	
 	public UserStatusListDto getstatusdata(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
 		System.out.println(contnttype);
 		System.out.println("Last Id: " + LastViewedId);
@@ -196,14 +204,29 @@ public class HomeController {
 		System.out.println(dto.getMinId());
 		System.out.println(dto.getList().size());
 		return dto;
-	}
+	} */
 	
-	/*
-	@RequestMapping(value = "/getmessage")
-	@ResponseBody
-	public String getstatusdataX(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
+	@RequestMapping(value = "/getmessage", produces = "application/json;charset=UTF-8")
+	@ResponseBody	
+	public String getstatusdata(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
 		System.out.println(contnttype);
 		System.out.println("Last Id: " + LastViewedId);
-		return "{XCXCXC: 'RTE'}";
-	}*/
+		Long StartId = (LastViewedId == null) ? -100L : (Long.valueOf(LastViewedId)) + 1L;		
+		UserStatusListDto dto = userStatusDao.getUserStatusFrom(StartId);
+		System.out.println(dto.getMaxId());
+		System.out.println(dto.getMinId());
+		System.out.println(dto.getList().size());
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);		
+		//строка ниже не работает
+		mapper.getSerializationConfig().with(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss"));		
+		try {
+			return mapper.writeValueAsString(dto);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();			
+		}		
+		return null;
+	}
+		
 }

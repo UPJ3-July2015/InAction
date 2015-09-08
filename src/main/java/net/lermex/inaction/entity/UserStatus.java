@@ -14,6 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.lermex.inaction.dao.JsonDateSerializer;
+
+@JsonAutoDetect
 @Entity
 @Table(name = "scuser_statuses")
 public class UserStatus {
@@ -27,6 +33,7 @@ public class UserStatus {
 	@JoinColumn(name="USER_ID", referencedColumnName="ID")
 	private User user;
 	
+	/* @JsonSerialize(using=JsonDateSerializer.class) - java.lang.IllegalStateException: getOutputStream() has already been called for this response */
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="create_dt")
 	private Date createDt;
