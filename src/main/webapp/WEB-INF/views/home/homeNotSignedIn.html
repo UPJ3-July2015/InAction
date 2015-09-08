@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
     <link href="../../../resources/css/all.css" rel="stylesheet" media="screen" th:href="@{/resources/css/all.css}" />
         
-    <script>
+    <script th:inline="javascript">
     function onbodyload() {
     	setInterval(refreshdatafromserver, 5000);
     }
@@ -33,20 +33,17 @@
     	    	  console.log(result.minId);
     	    	  console.log(result.maxId);
     	    	  console.log(result.list);    	    	  
-    	    	  var i;
-    	    	  var a = result.list;
     	    	  for(var i in result.list) {
-    	    		  console.log(result.list[i].user.name);
-    	    	  }    	    	  
-    	    	  /*
-    	    	  for(var o in result.list) {
-    	    		  //var s = "<div class='news-item'><div><span class='news-item__name'>"+o.user.name+"</span><span class='news-item__date'>"+o.createDt+"</span></div><span>"+o.userText+"</span></div>";
-    	    		  console.log(o.user);
-    	    		  var ou = o.user;
-    	    		  console.log(ou.name);
-    	    		 // $("#mymessage").append( "<div class='news-item'><div>"+"<span class='news-item__name'>"+o.user.name+"</span>"+"<span class='news-item__date'>"+o.createDt+"</span>"+"</div><span>"+o.userText+"</span></div>" );  
-    	    	  }*/
-    	    	  
+    	    		  //console.log(result.list[i].user.name);
+    	    		  var o = result.list[i];
+    	    		  var divn = $("<div></div>").addClass("news-item");
+    	    		  var divh = $("<div></div>");    	    		  
+    	    		  $("<span></span>").addClass("news-item__name").text(o.user.name).appendTo(divh)
+    	    		  $("<span></span>").addClass("news-item__date").text(o.createDt).appendTo(divh);
+    	    		  divh.appendTo(divn);
+    	    		  $("<span></span>").text(o.userText).appendTo(divn);    	    		  
+    	    		  $("#mymessage").append(divn);
+    	    	  }    	    	      	    	     	    	  
     	    	 // $("#lastid").val(data);
     	    	 //$("#mymessage").html(result); //.innerHTML = result;
     	    },
@@ -54,8 +51,8 @@
       
    	}    
     </script>
-    <script>
-    function getdatafromserver() {
+    <script th:inline="javascript">
+    function sendDataToServer() {
     	var param = $("#myparam").val();    	    
     	console.log(param);
     	
@@ -88,7 +85,6 @@
 </style>
 </head>
 <body onload="onbodyload()">
-<form><input type="hidden" name="lastid" id="lastid"/></form>
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="row" style="margin: 8px;">
@@ -224,7 +220,7 @@
             </div>
             <div class="panel">
                 <input type="hidden" id="myLastId" name="myLastId" />
-                <input type="text" id="myparam" /><input type="button" value="click me"  onclick="getdatafromserver()" />
+                <input type="text" id="myparam" /><input type="button" value="click me"  onclick="sendDataToServer()" />
                 <div id="mymessage">POSTMESSAGE</div>      
                 
                 <!-- 
