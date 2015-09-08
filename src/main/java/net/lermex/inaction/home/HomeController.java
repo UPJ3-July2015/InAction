@@ -22,6 +22,7 @@ import net.lermex.inaction.entity.User;
 import net.lermex.inaction.entity.UserActivity;
 import net.lermex.inaction.entity.UserActivityShow;
 import net.lermex.inaction.entity.UserStatus;
+import net.lermex.inaction.entity.UserStatusListDto;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -57,7 +58,7 @@ public class HomeController {
 	UserAvatarShowDao userAvatarShowDao;
 	
 	@Autowired
-	ServletContext context;
+	ServletContext context;	
 
 	@RequestMapping(value = "/")
 	public ModelAndView index() {
@@ -170,4 +171,39 @@ public class HomeController {
 		headers.setContentLength(result.length);
 	    return new ResponseEntity<byte[]> (result, headers, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/addmessage")
+	@ResponseBody
+	public String addstatusdata(@RequestBody String param, @RequestHeader("Content-Type") String contnttype) {
+		System.out.println(contnttype);
+		System.out.println(param);
+		User u = userDao.getUserById(168L);
+		UserStatus us = new UserStatus();
+		us.setUser(u);
+		us.setUserText(param);
+		Long LastId = userStatusDao.addUserStatus(us);		
+		return LastId.toString();
+	}
+	
+	@RequestMapping(value = "/getmessage")
+	@ResponseBody
+	public UserStatusListDto getstatusdata(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
+		System.out.println(contnttype);
+		System.out.println("Last Id: " + LastViewedId);
+		Long StartId = (LastViewedId == null) ? -100L : (Long.valueOf(LastViewedId)) + 1L;		
+		UserStatusListDto dto = userStatusDao.getUserStatusFrom(StartId);
+		System.out.println(dto.getMaxId());
+		System.out.println(dto.getMinId());
+		System.out.println(dto.getList().size());
+		return dto;
+	}
+	
+	/*
+	@RequestMapping(value = "/getmessage")
+	@ResponseBody
+	public String getstatusdataX(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
+		System.out.println(contnttype);
+		System.out.println("Last Id: " + LastViewedId);
+		return "{XCXCXC: 'RTE'}";
+	}*/
 }

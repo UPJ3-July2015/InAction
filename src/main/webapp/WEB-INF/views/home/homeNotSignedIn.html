@@ -9,25 +9,71 @@
 
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
     <link href="../../../resources/css/all.css" rel="stylesheet" media="screen" th:href="@{/resources/css/all.css}" />
-    
+        
+    <script>
+    function onbodyload() {
+    	setInterval(refreshdatafromserver, 5000);
+    }
+    function refreshdatafromserver() {
+    	var param = $("#lastid").val();
+    	if (!param) {
+    		param = "-1"; //-1 - не катит, только строка только хардкор
+    	}
+    	console.log("send: " + param);
+    	
+    	$.ajax({
+    		url: "/getmessage",
+    		type: "POST",
+    	    datatype : "json",
+    	    contentType: "text/plain; charset=UTF-8",
+    	    data : param,
+    	    success : function(result) {
+    	    	  console.log("getmessage");
+    	    	  console.log(result);
+    	    	  console.log(result.minId);
+    	    	  console.log(result.maxId);
+    	    	  console.log(result.list);    	    	  
+    	    	  var i;
+    	    	  var a = result.list;
+    	    	  for(var i in result.list) {
+    	    		  console.log(result.list[i].user.name);
+    	    	  }    	    	  
+    	    	  /*
+    	    	  for(var o in result.list) {
+    	    		  //var s = "<div class='news-item'><div><span class='news-item__name'>"+o.user.name+"</span><span class='news-item__date'>"+o.createDt+"</span></div><span>"+o.userText+"</span></div>";
+    	    		  console.log(o.user);
+    	    		  var ou = o.user;
+    	    		  console.log(ou.name);
+    	    		 // $("#mymessage").append( "<div class='news-item'><div>"+"<span class='news-item__name'>"+o.user.name+"</span>"+"<span class='news-item__date'>"+o.createDt+"</span>"+"</div><span>"+o.userText+"</span></div>" );  
+    	    	  }*/
+    	    	  
+    	    	 // $("#lastid").val(data);
+    	    	 //$("#mymessage").html(result); //.innerHTML = result;
+    	    },
+    	});       
+      
+   	}    
+    </script>
     <script>
     function getdatafromserver() {
     	var param = $("#myparam").val();    	    
     	console.log(param);
     	
     	$.ajax({
-    		url: "/dosomeyet",
+    		url: "/addmessage",
     		type: "POST",
     	    datatype : "html",
     	    contentType: "text/plain; charset=UTF-8",
     	    data : param,
     	    success : function(result) {
-    	    	  console.log(data);
-    	    	  $("#myparam").val("");
+    	    	  console.log(result);
+    	    	  //$("#mymessage").innerHTML = result;
+    	    	  $("#mymessage").html(result);
+    	    	  //$("#lastid").val(data);
     	    },
     	});       
       
-   	}
+   	}    
     </script>
 <style>
 	div.strange {
@@ -41,7 +87,8 @@
 	}
 </style>
 </head>
-<body>
+<body onload="onbodyload()">
+<form><input type="hidden" name="lastid" id="lastid"/></form>
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="row" style="margin: 8px;">
@@ -176,9 +223,11 @@
                 </div>
             </div>
             <div class="panel">
+                <input type="hidden" id="myLastId" name="myLastId" />
+                <input type="text" id="myparam" /><input type="button" value="click me"  onclick="getdatafromserver()" />
+                <div id="mymessage">POSTMESSAGE</div>      
                 
-                <input type="text" id="myparam" /><input type="button" value="click me"  onclick="getdatafromserver()" />      
-                 
+                <!-- 
                 <div class="news-item" th:each="item : ${listUserActivityShow}">
                     <div>
                         <span class="news-item__name" th:text="${item.userName}">Jane Hithard</span>
@@ -186,6 +235,7 @@
                     </div>
                     <span th:text="${item.sportActivityName}">Anyone up for a hike this weekend?</span>
                 </div>
+                -->
                 <!-- 
                 <div class="news-item">
                     <div>
