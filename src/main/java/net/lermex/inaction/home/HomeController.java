@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,6 +28,7 @@ import net.lermex.inaction.entity.UserActivity;
 import net.lermex.inaction.entity.UserActivityShow;
 import net.lermex.inaction.entity.UserStatus;
 import net.lermex.inaction.entity.UserStatusListDto;
+import net.lermex.inaction.json.ViewsHolder;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -217,11 +219,12 @@ public class HomeController {
 		System.out.println(dto.getMinId());
 		System.out.println(dto.getList().size());
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);		
+		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
 		//строка ниже не работает
 		mapper.getSerializationConfig().with(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss"));		
 		try {
-			return mapper.writeValueAsString(dto);
+			return mapper.writerWithView(ViewsHolder.Post.class).writeValueAsString(dto);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();			

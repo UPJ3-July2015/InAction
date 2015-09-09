@@ -15,29 +15,35 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import net.lermex.inaction.dao.JsonDateSerializer;
+import net.lermex.inaction.json.ViewsHolder;
 
 @JsonAutoDetect
 @Entity
 @Table(name = "scuser_statuses")
 public class UserStatus {
 
+	@JsonView(ViewsHolder.Post.class)
 	@Id
 	@GeneratedValue(generator = "userstatus_seq")
 	@SequenceGenerator(name = "userstatus_seq", sequenceName = "SC_SEQ", allocationSize = 1)
 	private Long Id;
 	
+	@JsonView(ViewsHolder.Post.class)
 	@ManyToOne
 	@JoinColumn(name="USER_ID", referencedColumnName="ID")
 	private User user;
 	
+	@JsonView(ViewsHolder.Post.class)
 	/* @JsonSerialize(using=JsonDateSerializer.class) - java.lang.IllegalStateException: getOutputStream() has already been called for this response */
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="create_dt")
 	private Date createDt;
 	
+	@JsonView(ViewsHolder.Post.class)
 	@Column(name = "user_text", length = 4000)
 	private String userText;
 	

@@ -2,10 +2,19 @@ package net.lermex.inaction.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import net.lermex.inaction.json.ViewsHolder;
+
 public class UserStatusListDto {
 	
+	@JsonView(ViewsHolder.Post.class)
 	private List<UserStatus> list;
+	
+	@JsonView(ViewsHolder.Post.class)
 	private Long minId;
+	
+	@JsonView(ViewsHolder.Post.class)
 	private Long maxId;
 	
 	public UserStatusListDto() {}

@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import net.lermex.inaction.json.ViewsHolder;
 import net.lermex.inaction.util.CSHA1Util;
 
 import javax.persistence.Id;
@@ -29,11 +32,13 @@ import javax.persistence.SequenceGenerator;
 		@NamedQuery(name = "User.getCountByUserName", query = "SELECT COUNT(u) FROM User u where u.name = :usern") })
 public class User {
 
+	@JsonView(ViewsHolder.Post.class)
 	@Id
 	@GeneratedValue(generator = "user_seq")
 	@SequenceGenerator(name = "user_seq", sequenceName = "SC_SEQ", allocationSize = 1)
 	private Long Id;
 
+	@JsonView(ViewsHolder.Post.class)
 	@Column(name = "name", length = 40)
 	private String name;
 
