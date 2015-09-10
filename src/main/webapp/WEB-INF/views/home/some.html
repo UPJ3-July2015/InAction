@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>InAction</title>
+<meta charset="UTF-8" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js" />
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
+<link href="../../../resources/css/all.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/all.css}" />
+</head>
+<script>
+var dmn = "http://localhost:8081"
+function funReload() {
+	document.location.href = dmn+"/some";
+}
+ function fun1h() {
+ 	  var divn = $("<div></div>").addClass("news-item");
+	  var divh = $("<div></div>");    	    		  
+	  $("<span></span>").addClass("news-item__name").text("Mr.1").appendTo(divh)
+	  divh.appendTo(divn);
+	  $("<span></span>").text("Hello there").appendTo(divn);    	    		  
+	  $("#div1").html(divn);	  	 
+	  $("#divNext").html("<p>Welcome to the Spring MVC Quickstart application! Get started quickly by signing up.</p>");
+ }
+ function fun1(event) {
+	 //без preventDefault в историю вносятся клики на гиперссылке,
+	 //т.е., при клике, вносится ссылка указанная в гиперссылке
+	 //а window.history.pushState добавит еще одну ссылку	 
+	 fun1h();
+	 /*
+	   var obj = {f: function() {}};
+	   window.history.pushState( obj, 'Title', '/page1.php');
+	   Uncaught DataCloneError: Failed to execute 'pushState' on 'History': An object could not be cloned.
+	   Fuuuu
+	   А я хотел позвать event.state()
+	 */
+	 window.history.pushState('page1', 'Title', '/page1.php');
+	 event.preventDefault();
+ }
+ function fun2h() {
+	  var divn = $("<div></div>").addClass("news-item");
+	  var divh = $("<div></div>");    	    		  
+	  $("<span></span>").addClass("news-item__name").text("Mr.2").appendTo(divh)
+	  divh.appendTo(divn);
+	  $("<span></span>").text("Hi2all").appendTo(divn);    	    		  
+	  $("#div1").html(divn);
+	  $("#divNext").html("<p>Welcome to the Spring MVC Quickstart application! Get started quickly by signing up.</p>");
+ }
+ function fun2(event) {	 
+	 fun2h();
+	 window.history.pushState('page2', 'Title', '/page2.php');
+	 event.preventDefault();
+ } 
+ function fun3h() {
+	 var template = $('#template1').html();
+	 $("#divNext").html(template);
+	 $("#div1").html("<p>Welcome to the Spring MVC Quickstart application! Get started quickly by signing up.</p>");
+ }
+ function fun3(event) {	 
+	 fun3h();
+	 window.history.pushState('page3', 'Title', '/page3.php');
+	 event.preventDefault();
+ }
+function fun4h() {
+	var template = $('#template2').html();
+	$("#divNext").html(template);
+	$("#div1").html("<p>Welcome to the Spring MVC Quickstart application! Get started quickly by signing up.</p>");
+} 
+function fun4(event) {	
+	fun4h();
+	window.history.pushState('page4', 'Title', '/page4.php');
+	event.preventDefault();
+ }
+var globalH = {};
+window.onpopstate = function(event) {
+	console.log("location: " + document.location);
+	console.log(event);
+	//treatment		
+	/* console.log(globalH[document.location]);
+	if (globalH[document.location]) {
+		globalH[document.location]();
+		console.log("done");
+	} */
+	
+	if (event.state) {
+		console.log(event.state);
+		console.log(globalH[event.state]);
+		globalH[event.state]();				
+	} else {
+		funReload(); //document.location was better
+	}
+	
+	
+}
+ $( document ).ready(function() {
+	 $( "#foo1" ).bind( "click", fun1 );
+	 $( "#foo2" ).bind( "click", fun2 );
+	 $( "#foo3" ).bind( "click", fun3 );
+	 $( "#foo4" ).bind( "click", fun4 );
+	 //history support
+	 /*
+	 globalH[dmn+"/page4.php"] = fun4h;
+	 globalH[dmn+"/page3.php"] = fun3h;
+	 globalH[dmn+"/page2.php"] = fun2h;
+	 globalH[dmn+"/page1.php"] = fun1h;
+	 globalH[dmn+"/some"] = funReload;
+	 */
+	 globalH['page4'] = fun4h;
+	 globalH['page3'] = fun3h;
+	 globalH['page2'] = fun2h;
+	 globalH['page1'] = fun1h;
+	// globalH[dmn+"/some"] = funReload;
+	//
+	//fck js
+	var ara = {};
+	ara[{page: 'page1'}] = fun1h;
+	ara[{page: 'page2'}] = fun2h;
+	//Are you ready ? язь рыба моей мечты
+	console.log(ara[{page: 'page1'}]);
+	console.log(ara[{page: 'page2'}]);
+ });
+</script>
+<script type="text/html" id="template1">
+<div class="news-item">
+  <div>
+   <span class="news-item__name">Mr.3</span>
+  </div>
+  <span>what's up</span>
+ </div>
+</script>
+<script type="text/html" id="template2">
+<div class="news-item">
+  <div>
+   <span class="news-item__name">Mr.4</span>
+  </div>
+  <span>Must dash</span>
+ </div>
+</script>
+<body>
+	<div class="container">
+		<div class="panel">
+			<a href="#" id="foo1">&lt;Reference 1&gt;</a>&nbsp;
+			<a href="#" id="foo2">&lt;Reference 2&gt;</a>
+		</div>		
+		<div id="div1" class="panel">
+			<p>Welcome to the Spring MVC Quickstart application! Get started
+				quickly by signing up.</p>
+		</div>
+		<br></br>
+		<div class="panel">
+			<a href="#" id="foo3">&lt;Reference 3&gt;</a>&nbsp;
+			<a href="#" id="foo4">&lt;Reference 4&gt;</a>
+		</div>
+		<div id="divNext" class="panel">
+			<p>Welcome to the Spring MVC Quickstart application! Get started
+				quickly by signing up.</p>
+		</div>
+	</div>
+</body>
+</html>

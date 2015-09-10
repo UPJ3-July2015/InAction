@@ -68,7 +68,13 @@ public class HomeController {
 	
 	@Autowired
 	ServletContext context;	
+	
+	@RequestMapping(value = "/some")
+	public ModelAndView indexSPA() {
+		return new ModelAndView("home/some");
+	}
 
+	
 	@RequestMapping(value = "/")
 	public ModelAndView index() {
 		List<Integer> listOfIntegers = Arrays.asList(4, 5, 6, 12, 3, 4, 5);
@@ -194,11 +200,15 @@ public class HomeController {
 		return LastId.toString();
 	}
 	
-	/*
-	@RequestMapping(value = "/getmessage", produces = "application/json")
+
+
+	@RequestMapping(value = "/getmessage", produces = "application/json" /*, headers = "accept=application/json" */ )
 	@ResponseBody	
-	public UserStatusListDto getstatusdata(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
+	public UserStatusListDto getstatusdata(@RequestBody String LastViewedId, 
+			@RequestHeader("Content-Type") String contnttype,
+			@RequestHeader("Accept") String accept) {
 		System.out.println(contnttype);
+		System.out.println(accept);
 		System.out.println("Last Id: " + LastViewedId);
 		Long StartId = (LastViewedId == null) ? -100L : (Long.valueOf(LastViewedId)) + 1L;		
 		UserStatusListDto dto = userStatusDao.getUserStatusFrom(StartId);
@@ -206,12 +216,17 @@ public class HomeController {
 		System.out.println(dto.getMinId());
 		System.out.println(dto.getList().size());
 		return dto;
-	} */
+	} 
 	
+	
+    /*
 	@RequestMapping(value = "/getmessage", produces = "application/json;charset=UTF-8")
 	@ResponseBody	
-	public String getstatusdata(@RequestBody String LastViewedId, @RequestHeader("Content-Type") String contnttype) {
+	public String getstatusdata(@RequestBody String LastViewedId, 
+			@RequestHeader("Content-Type") String contnttype,
+			@RequestHeader("Accept") String accept) {
 		System.out.println(contnttype);
+		System.out.println(accept);
 		System.out.println("Last Id: " + LastViewedId);
 		Long StartId = (LastViewedId == null) ? -100L : (Long.valueOf(LastViewedId)) + 1L;		
 		UserStatusListDto dto = userStatusDao.getUserStatusFrom(StartId);
@@ -230,6 +245,6 @@ public class HomeController {
 			e.printStackTrace();			
 		}		
 		return null;
-	}
+	} */
 		
 }

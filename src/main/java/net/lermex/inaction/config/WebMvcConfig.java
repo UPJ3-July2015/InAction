@@ -2,6 +2,9 @@ package net.lermex.inaction.config;
 
 import static org.springframework.context.annotation.ComponentScan.Filter;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import net.lermex.inaction.Application;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.Validator;
@@ -21,6 +26,9 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Configuration
 @ComponentScan(basePackageClasses = Application.class, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
@@ -100,5 +108,23 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         String favicon() {
             return "forward:/resources/images/favicon.ico";
         }
+    }
+    
+    /* Эти два метода ниже настраивают отображение timestamp в дата-время */
+    
+    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(converter());
+        addDefaultHttpMessageConverters(converters) ;
+    }
+
+    @Bean
+    MappingJackson2HttpMessageConverter converter() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
+        mapper.setDateFormat(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss"));
+        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new
+                MappingJackson2HttpMessageConverter();
+        mappingJackson2HttpMessageConverter.setObjectMapper(mapper);
+        return mappingJackson2HttpMessageConverter;
     }
 }

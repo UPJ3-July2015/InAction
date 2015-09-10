@@ -28,5 +28,9 @@ class ApplicationConfig {
 		return Persistence.createEntityManagerFactory("app");
 	}
 	
+	public ApplicationConfig() {
+		
+	}
+	
 	
 }
