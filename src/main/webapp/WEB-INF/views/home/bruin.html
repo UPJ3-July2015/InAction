@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bruin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js" />
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
+    <link href="../../../resources/css/all.css" rel="stylesheet" media="screen" th:href="@{/resources/css/all.css}" />
+    <style>
+        .link_pool {
+            width: 50%;
+            margin: auto;
+            display: block;
+        }
+        .display {
+            display: block;
+        }
+        .hide {
+            display: none;
+        }
+        .paper {
+            width: 80%;
+            display: block;
+            margin: auto;
+        }
+        .link:hover {
+            color: #193441;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        //******** functions **********
+        var loadFragment = function(numberOfPage) {
+            loadHistory(numberOfPage);
+            window.history.pushState("page"+numberOfPage, "Page "+numberOfPage, "/page"+numberOfPage);
+            event.preventDefault();
+        };
+        var loadHistory = function(numberOfPage) {
+            $(".fragment").addClass("hide");
+            $("#fragment"+numberOfPage).removeClass("hide");
+            console.log("Location pathname = " + location.pathname);
+        };
+        var loadBase = function() {
+            $('.fragment').addClass("hide");
+        }
+        var popStateWork = function(event) {
+            console.log(location.pathname);
+            switch (location.pathname) {
+                case '/page1': loadHistory(1);
+                    break;
+                case '/page2': loadHistory(2);
+                    break;
+                case '/page3': loadHistory(3);
+                    break;
+                case '/page4': loadHistory(4);
+                    break;
+                case '/bruin': loadBase();
+            }
+        };
+
+        $(document).on("click", "#link1", function() {loadFragment(1)});
+        $(document).on("click", "#link2", function() {loadFragment(2)});
+        $(document).on("click", "#link3", function() {loadFragment(3)});
+        $(document).on("click", "#link4", function() {loadFragment(4)});
+        $(window).on('popstate', function() {popStateWork()});
+
+    </script>
+</head>
+<body>
+
+<div class="panel">
+    <div class="link_pool">
+    <a href="#" class="link" id="link1">TELEGRAPH</a><span>&nbsp;&nbsp;&nbsp;</span>
+    <a href="#" class="link" id="link2">Tte Arizona Republik</a><span>&nbsp;&nbsp;&nbsp;</span>
+    <a href="#" class="link" id="link3">New York Times</a><span>&nbsp;&nbsp;&nbsp;</span>
+    <a href="#" class="link" id="link4">The Matiz</a>
+    </div>
+</div>
+<br/>
+<div id="container">
+<div class="panel hide fragment" id="fragment1">
+    <img class="paper" src="http://bgfons.com/upload/newspaper_texture2813.jpg"/>
+</div>
+<div class="panel hide fragment" id="fragment2">
+    <img class="paper" src="http://bgfons.com/upload/newspaper_texture2816.jpg"/>
+</div>
+<div class="panel hide fragment" id="fragment3">
+    <img class="paper" src="http://bg.ru/media/upload/files/720285077_1357754426.gif"/>
+</div>
+<div class="panel hide fragment" id="fragment4">
+    <img class="paper" src="http://www.hockracing.de/pic_peking_paris/leMartin%201907.jpg"/>
+</div>
+</div>
+</body>
+</html>

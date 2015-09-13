@@ -1,5 +1,6 @@
 package net.lermex.inaction.home;
 
+import com.sun.javafx.sg.prism.NGShape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,6 +73,11 @@ public class HomeController {
 	@RequestMapping(value = "/some")
 	public ModelAndView indexSPA() {
 		return new ModelAndView("home/some");
+	}
+
+	@RequestMapping(value = "/bruin")
+	public ModelAndView historyLinks() {
+		return new ModelAndView("home/bruin");
 	}
 
 	
