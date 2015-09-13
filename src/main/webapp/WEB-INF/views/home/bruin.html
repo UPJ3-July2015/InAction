@@ -32,15 +32,21 @@
     </style>
     <script>
         //******** functions **********
-        var loadFragment = function(numberOfPage) {
-            loadHistory(numberOfPage);
+
+        var pageLoad = function(numberOfPage) {
+            $("#container").empty();
+            $.ajax({
+                url: "/page"+numberOfPage,
+                type: "GET",
+                success: function(result) {
+                    console.log(result);
+                    $("#container").html(result);
+                }
+            });
+        };
+        var addHistory = function(numberOfPage) {
             window.history.pushState("page"+numberOfPage, "Page "+numberOfPage, "/page"+numberOfPage);
             event.preventDefault();
-        };
-        var loadHistory = function(numberOfPage) {
-            $(".fragment").addClass("hide");
-            $("#fragment"+numberOfPage).removeClass("hide");
-            console.log("Location pathname = " + location.pathname);
         };
         var loadBase = function() {
             $('.fragment').addClass("hide");
@@ -48,22 +54,35 @@
         var popStateWork = function(event) {
             console.log(location.pathname);
             switch (location.pathname) {
-                case '/page1': loadHistory(1);
+                case '/page1': pageLoad(1);
                     break;
-                case '/page2': loadHistory(2);
+                case '/page2': pageLoad(2);
                     break;
-                case '/page3': loadHistory(3);
+                case '/page3': pageLoad(3);
                     break;
-                case '/page4': loadHistory(4);
+                case '/page4': pageLoad(4);
                     break;
                 case '/bruin': loadBase();
             }
         };
 
-        $(document).on("click", "#link1", function() {loadFragment(1)});
-        $(document).on("click", "#link2", function() {loadFragment(2)});
-        $(document).on("click", "#link3", function() {loadFragment(3)});
-        $(document).on("click", "#link4", function() {loadFragment(4)});
+        $(document).on("click", "#link1", function() {
+            pageLoad(1);
+            addHistory(1);
+
+        });
+        $(document).on("click", "#link2", function() {
+            pageLoad(2);
+            addHistory(2);
+        });
+        $(document).on("click", "#link3", function() {
+            pageLoad(3);
+            addHistory(3);
+        });
+        $(document).on("click", "#link4", function() {
+            pageLoad(4);
+            addHistory(4);
+        });
         $(window).on('popstate', function() {popStateWork()});
 
     </script>
@@ -80,18 +99,7 @@
 </div>
 <br/>
 <div id="container">
-<div class="panel hide fragment" id="fragment1">
-    <img class="paper" src="http://bgfons.com/upload/newspaper_texture2813.jpg"/>
-</div>
-<div class="panel hide fragment" id="fragment2">
-    <img class="paper" src="http://bgfons.com/upload/newspaper_texture2816.jpg"/>
-</div>
-<div class="panel hide fragment" id="fragment3">
-    <img class="paper" src="http://bg.ru/media/upload/files/720285077_1357754426.gif"/>
-</div>
-<div class="panel hide fragment" id="fragment4">
-    <img class="paper" src="http://www.hockracing.de/pic_peking_paris/leMartin%201907.jpg"/>
-</div>
+    <!-- Add new block here from server -->
 </div>
 </body>
 </html>

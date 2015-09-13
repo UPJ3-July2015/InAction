@@ -80,6 +80,27 @@ public class HomeController {
 		return new ModelAndView("home/bruin");
 	}
 
+	@RequestMapping(value = "/page1")
+	public ModelAndView historyLinks1() {
+		return new ModelAndView("fragments/frag1");
+	}
+
+	@RequestMapping(value = "/page2")
+	public ModelAndView historyLinks2() {
+		return new ModelAndView("fragments/frag2");
+	}
+
+	@RequestMapping(value = "/page3")
+	public ModelAndView historyLinks3() {
+
+		return new ModelAndView("fragments/frag3");
+	}
+
+	@RequestMapping(value = "/page4")
+	public ModelAndView historyLinks4() {
+		return new ModelAndView("fragments/frag4");
+	}
+
 	
 	@RequestMapping(value = "/")
 	public ModelAndView index() {
